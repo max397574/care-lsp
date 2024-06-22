@@ -90,3 +90,5 @@ function lsp_source.new(client)
     }
     return source
 end
+
+return lsp_source
