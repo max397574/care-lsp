@@ -9,6 +9,9 @@ function lsp_source.setup()
             for _, client in ipairs(vim.lsp.get_clients()) do
                 if not lsp_source.clients[client.id] then
                     local source = lsp_source.new(client)
+                    if not source then
+                        return
+                    end
                     lsp_source.clients[client.id] = source
                     require("neocomplete.sources").register_source(source)
                 end
@@ -55,8 +58,11 @@ local function get_items(result)
 end
 
 ---@param client vim.lsp.Client
----@return neocomplete.source
+---@return neocomplete.source?
 function lsp_source.new(client)
+    if not client.server_capabilities.completionProvider then
+        return nil
+    end
     ---@type neocomplete.source
     local source = {
         -- TODO: name needs to be same for all clients to allow configuration
@@ -68,6 +74,7 @@ function lsp_source.new(client)
             ---@type lsp.CompletionItem
             local items
             local is_incomplete
+            vim.print(params)
             client.request(vim.lsp.protocol.Methods.textDocument_completion, params, function(err, result)
                 if err then
                     vim.print(err)
