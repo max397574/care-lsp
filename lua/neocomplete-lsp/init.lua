@@ -74,7 +74,6 @@ function lsp_source.new(client)
             ---@type lsp.CompletionItem
             local items
             local is_incomplete
-            vim.print(params)
             client.request(vim.lsp.protocol.Methods.textDocument_completion, params, function(err, result)
                 if err then
                     vim.print(err)
