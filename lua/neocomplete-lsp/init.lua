@@ -93,6 +93,18 @@ function lsp_source.new(client)
         is_available = function()
             return not client.is_stopped()
         end,
+        resolve_item = function(_, item, callback)
+            client.request(vim.lsp.protocol.Methods.completionItem_resolve, item, function(err, result)
+                if err then
+                    vim.print(err)
+                    callback(item)
+                    return
+                end
+                if result then
+                    callback(result)
+                end
+            end)
+        end,
     }
     return source
 end
