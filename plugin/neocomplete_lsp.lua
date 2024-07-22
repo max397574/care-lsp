@@ -1,1 +1,0 @@
-require("neocomplete-lsp").setup()

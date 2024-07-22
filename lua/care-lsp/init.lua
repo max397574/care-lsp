@@ -13,7 +13,7 @@ function lsp_source.setup()
                         return
                     end
                     lsp_source.clients[client.id] = source
-                    require("neocomplete.sources").register_source(source)
+                    require("care.sources").register_source(source)
                 end
             end
         end,
@@ -58,16 +58,16 @@ local function get_items(result)
 end
 
 ---@param client vim.lsp.Client
----@return neocomplete.source?
+---@return care.source?
 function lsp_source.new(client)
     if not client.server_capabilities.completionProvider then
         return nil
     end
-    ---@type neocomplete.source
+    ---@type care.source
     local source = {
         -- TODO: name needs to be same for all clients to allow configuration
         name = "nvim-lsp " .. client.name,
-        ---@param context neocomplete.completion_context
+        ---@param context care.completion_context
         complete = function(context, callback)
             local params = vim.lsp.util.make_position_params(0, client.offset_encoding)
             params.context = context.completion_context
