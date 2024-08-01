@@ -3,7 +3,7 @@ local lsp_source = {}
 lsp_source.clients = {}
 
 function lsp_source.setup()
-    vim.api.nvim_create_autocmd("InsertEnter", {
+    vim.api.nvim_create_autocmd("LspAttach", {
         callback = function()
             -- TODO: always check if clients are from buf and not `is_stopped()`
             for _, client in ipairs(vim.lsp.get_clients()) do
